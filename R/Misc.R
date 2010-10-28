@@ -39,8 +39,8 @@ is.whole <- function(x){
 ##' @return Vector of positive integers of length \code{sum(x)}.
 ##' @author Vinh Nguyen
 ##' @examples
-##' oneTo(1:5) ; oneTo( c(1,10,2) )
-oneTo <- function(x){
+##' OneTo(1:5) ; OneTo( c(1,10,2) )
+OneTo <- function(x){
   ## takes in vector of positive integers
   ## returns vector of 
   stopifnot( is.whole(x), x > 0 )
@@ -48,7 +48,7 @@ oneTo <- function(x){
     paste('c(', paste('1:', x, collapse=',', sep=''), ')', sep='')
              ))
 }
-## oneTo(1:5) ; oneTo( c(1,10,2) )
+## OneTo(1:5) ; OneTo( c(1,10,2) )
 
 ##' Takes in a string with a separator \code{sep} and returns a vector of string.  This allows for faster input of string data.
 ##' @title Vector of strings
@@ -56,29 +56,67 @@ oneTo <- function(x){
 ##' @param sep Separator; defaults to \code{","}.
 ##' @return Vector of strings.
 ##' @author Vinh Nguyen
-##' @examples string.vector("a,b,c,d")
-string.vector <- function(string, sep=","){
+##' @examples string2vec("a,b,c,d")
+string2vec <- function(string, sep=","){
   ## takes in a string with a separator
   ## returns a vector of string, each element being the value separated in input
   eval(parse(text=paste('c("', paste(unlist(strsplit(string, split=sep)), collapse='","', sep=''), '")', sep='')))
 }
-## string.vector('a,b,c,d')
+## string2vec('a,b,c,d')
 
-##' For input \code{x} where the values are grouped, determine where the first element of each group occurs.
+##' For input vector \code{group} where the values are grouped, determine
+##' certain attributes for each group: group size, element enumeration,
+##' first element, and last element.  NOTE: Assumes group values are
+##' grouped next to each other.
 ##'
-##' This function is useful in longitudinal data sets when determining a baseline value for a subject or group.
-##' @title First
-##' @param x A vector where the values are grouped, such as ID in a longitudinal data set.
-##' @param index If \code{TRUE}, the index of the first element in each "group" is returned; if \code{FALSE}, a boolean vector is returned to indicate where the first elements are at; defaults to \code{FALSE}
+##' NOTE: code{group} is assumed to have group values grouped next to each other.
+##' 
+##' This function is useful in manipulations of longitudinal data sets,
+##' such as determining a baseline value for a subject/group or a value
+##' at the last visit.
+##'
+##' \code{GroupSize} determines the group size for each group.
+##'
+##' \code{GroupEnum} enumerates the elements of each group from 1 to the group size.
+##'
+##' \code{First} determines the first element of each group; returns a vector of logicals unless \code{index=TRUE}, which returns the indices.
+##'
+##' \code{Last} determines the last element of each group; returns a vector of logicals unless \code{index=TRUE}, which returns the indices.
+##' @title Attribute Extraction for Groups
+##' @rdname Groups
+##' @aliases GroupSize GroupEnum First Last
+##' @usage
+##' GroupSize(group)
+##' GroupEnum(group)
+##' First(group, index=FALSE)
+##' Last(group, index=FALSE)
+##' @param group A vector where the values are grouped next to each other, such as ID in a longitudinal data set.
+##' @param index For use with \code{First} and \code{Last}.  If \code{TRUE}, the index of the first/last element in each "group" is returned;
+##' if \code{FALSE}, a boolean vector is returned to indicate where the first/last elements are at; defaults to \code{FALSE}.
 ##' @return Boolean vector or vector of indices.
 ##' @author Vinh Nguyen
+##' @seealso \code{\link{Last}}
 ##' @examples
 ##' x <- c(1, 1, 2, 2, 2, 3, 4, 4, 4, 4)
+##' GroupSize(x)
+##' GroupEnum(x)
 ##' First(x, index=FALSE)
 ##' First(x, index=TRUE)
-First <- function(x, index=FALSE) {
-  cat("NOTE: 'First' function assumes 'x' is grouped.\n")
-  first.indicator <- oneTo(tapply(x, x, length)) == 1
+##' Last(x, index=FALSE)
+##' Last(x, index=FALSE)
+GroupSize <- function(group) {
+  tapply(group, group, length)
+}
+
+##' @nord
+GroupEnum <- function(group) {
+  OneTo(tapply(group, group, length))
+}
+
+##' @nord
+First <- function(group, index=FALSE) {
+  ## cat("NOTE: 'First' function assumes 'group' is grouped.\n")
+  first.indicator <- OneTo(tapply(group, group, length)) == 1
   if(!index) {
     return(first.indicator)
   } else
@@ -87,22 +125,11 @@ First <- function(x, index=FALSE) {
   }
 }
 
-##' For input \code{x} where the values are grouped, determine where the last element of each group occurs.
-##'
-##' This function is useful in longitudinal data sets when determining a last value for a subject or group.
-##' @title Last
-##' @param x A vector where the values are grouped, such as ID in a longitudinal data set.
-##' @param index If \code{TRUE}, the index of the last element in each "group" is returned; if \code{FALSE}, a boolean vector is returned to indicate where the last elements are at; defaults to \code{FALSE}
-##' @return Boolean vector or vector of indices.
-##' @author Vinh Nguyen
-##' @examples
-##' x <- c(1, 1, 2, 2, 2, 3, 4, 4, 4, 4)
-##' Last(x, index=FALSE)
-##' Last(x, index=TRUE)
-Last <- function(x, index=FALSE) {
-  cat("NOTE: 'Last' function assumes 'x' is grouped.\n")
-  length.of.each.group <- tapply(x, x, length)
-  last.indicator <- oneTo(tapply(x, x, length)) == rep(length.of.each.group, times=length.of.each.group)
+##' @nord
+Last <- function(group, index=FALSE) {
+  ## cat("NOTE: 'Last' function assumes 'group' is grouped.\n")
+  length.of.each.group <- tapply(group, group, length)
+  last.indicator <- OneTo(tapply(group, group, length)) == rep(length.of.each.group, times=length.of.each.group)
   if(!index) {
     return(last.indicator)
   } else
@@ -110,3 +137,62 @@ Last <- function(x, index=FALSE) {
     return(which(last.indicator))
   }
 }
+
+
+##' Indicate observations before/after the first/last \code{TRUE} value for each group.
+##'
+##' It is useful in longitudinal studies to subset each group to before or after an incident has occured.  These functions help make the subsetting easy.
+##' @title Indicate Before/After First/Last TRUE in groups
+##' @rdname IndicateBeforeAfterFirstLast
+##' @aliases BeforeFirstTrue AfterFirstTrue BeforeLastTrue AfterLastTrue
+##' @usage
+##' BeforeFirstTrue(TF, group, strict)
+##' AfterFirstTrue(TF, group, strict)
+##' BeforeLastTrue(TF, group, strict)
+##' AfterLastTrue(TF, group, strict)
+##' @param TF Vector of Boolean values.
+##' @param group Group/ID indicator, assumed grouped next to each other.
+##' @param strict \code{TRUE} or \code{FALSE} corresponds to strictly before/after.
+##' @return Vector of indicators (logical).
+##' @author Vinh Nguyen
+##' @examples
+##' group <- c(1, 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6)
+##' TF <- c(FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE)
+##' data.frame(group, TF, x=BeforeFirstTrue(TF, group, strict=FALSE), y=BeforeFirstTrue(TF, group, strict=TRUE))
+##' data.frame(group, TF, x=AfterFirstTrue(TF, group, strict=FALSE), y=AfterFirstTrue(TF, group, strict=TRUE))
+##' data.frame(group, TF, x=BeforeLastTrue(TF, group, strict=FALSE), y=BeforeLastTrue(TF, group, strict=TRUE))
+##' data.frame(group, TF, x=AfterLastTrue(TF, group, strict=FALSE), y=AfterLastTrue(TF, group, strict=TRUE))
+BeforeFirstTrue <- function(TF, group, strict=FALSE) {
+  if(length(TF) != length(group)) stop("TF and group must be of the same length.")
+  observation.time <- GroupEnum(group)
+  first.true <- tapply(TF, group, function(x){ ifelse1(any(x), which(x)[1], Inf) })
+  first.true.repeated <- rep(first.true, times=GroupSize(group))
+  return(ifelse1(strict, observation.time < first.true.repeated, observation.time <= first.true.repeated))
+}
+## group <- c(1, 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6); TF <- c(F, T, T, F, F, F, T, T, T, T, F, T, F, T, F)
+## data.frame(group, TF, x=BeforeFirstTrue(TF, group, strict=FALSE), y=BeforeFirstTrue(TF, group, strict=TRUE))
+
+##' @nord
+AfterFirstTrue <- function(TF, group, strict=TRUE) {
+  !BeforeFirstTrue(TF, group, !strict)
+}
+## group <- c(1, 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6); TF <- c(F, T, T, F, F, F, T, T, T, T, F, T, F, T, F)
+## data.frame(group, TF, x=AfterFirstTrue(TF, group, strict=FALSE), y=AfterFirstTrue(TF, group, strict=TRUE))
+
+##' @nord
+BeforeLastTrue <- function(TF, group, strict=FALSE) {
+  if(length(TF) != length(group)) stop("TF and group must be of the same length.")
+  observation.time <- GroupEnum(group)
+  last.true <- tapply(TF, group, function(x){ ifelse1(any(x), {trues <- which(x); trues[length(trues)]}, Inf) })
+  last.true.repeated <- rep(last.true, times=GroupSize(group))
+  return(ifelse1(strict, observation.time < last.true.repeated, observation.time <= last.true.repeated))
+}
+## group <- c(1, 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6); TF <- c(F, T, T, F, F, F, T, T, T, T, F, T, F, T, F)
+## data.frame(group, TF, x=BeforeLastTrue(TF, group, strict=FALSE), y=BeforeLastTrue(TF, group, strict=TRUE))
+
+##' @nord
+AfterLastTrue <- function(TF, group, strict=TRUE) {
+  !BeforeLastTrue(TF, group, !strict)
+}
+## group <- c(1, 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6); TF <- c(F, T, T, F, F, F, T, T, T, T, F, T, F, T, F)
+## data.frame(group, TF, x=AfterLastTrue(TF, group, strict=FALSE), y=AfterLastTrue(TF, group, strict=TRUE))
