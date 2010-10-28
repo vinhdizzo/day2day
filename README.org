@@ -1,3 +1,4 @@
+#+TITLE: day2day R package
 * ABOUT
   - Just an R Package with functions I use everyday.
 * LICENSE
