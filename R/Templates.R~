@@ -1,0 +1,45 @@
+##' Copy a directory from an installed package's base directory.
+##' @title Copy directory from a package
+##' @param name Name of new directory.
+##' @param dir Path of directory within the installed package's base directory; e.g., \code{"doc"} or \code{"code/C"}.
+##' @param package Name of package that to take \code{dir} from.
+##' @return Nothing.
+##' @author Adaped from the \code{ProjectTemplate} function from John Myles White (http://github.com/johnmyleswhite/ProjectTemplate)
+CopyDir <- function(name, dir, package)
+{
+  tmp.dir <- paste(name, '_tmp', sep = '')
+
+  if (file.exists(name) || file.exists(tmp.dir))
+  {
+    stop(paste("Cannot run create.project() from a directory containing", name, "or", tmp.dir))
+  }
+  
+  dir.create(tmp.dir)
+  
+  file.copy(system.file(dir, package = package),
+            file.path(tmp.dir),
+            recursive = TRUE)
+            
+  file.rename(file.path(tmp.dir, dir),
+              name)
+  
+  unlink(tmp.dir, recursive = TRUE)
+}
+
+##' Create a project directory from a template.
+##' @title Project Template
+##' @param name Name of the project directory.
+##' @return Nothing.
+##' @author Vinh Nguyen
+ProjectStart <- function(name) {
+  CopyDir(name=name, dir=file.path("templates", "project"), package="day2day")
+}
+
+##' Create a package directory from a template.
+##' @title Package Template
+##' @param name Name of the package directory.
+##' @return Nothing.
+##' @author Vinh Nguyen
+PackageStart <- function(name) {
+  CopyDir(name=name, dir=file.path("templates", "package"), package="day2day")
+}

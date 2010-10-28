@@ -1,0 +1,20 @@
+ProjectStart <- function(name)
+{
+  tmp.dir <- paste(name, '_tmp', sep = '')
+
+  if (file.exists(name) || file.exists(tmp.dir))
+  {
+    stop(paste("Cannot run create.project() from a directory containing", name, "or", tmp.dir))
+  }
+  
+  dir.create(tmp.dir)
+  
+  file.copy(system.file('defaults', package = 'ProjectTemplate'),
+            file.path(tmp.dir),
+            recursive = TRUE)
+            
+  file.rename(file.path(tmp.dir, 'ProjectTemplate'),
+              name)
+  
+  unlink(tmp.dir, recursive = TRUE)
+}

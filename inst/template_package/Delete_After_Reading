@@ -1,0 +1,5 @@
+- update DESCRIPTION file
+- ./exec for files to be in $R_HOME/bin
+- ./R for R source code files
+- ./man for Rd files (generated from Roxygen)
+- ./src for compiled binaries' source code files
