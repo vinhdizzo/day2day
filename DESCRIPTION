@@ -10,4 +10,4 @@ License: GPL (>= 2)
 Type: Package
 URL: http://r-forge.r-project.org/projects/day2day/
 BugReports: Vinh Nguyen <vinhdizzo@gmail.com>
-Collate: 'MakeTable.R' 'Misc.R' 'Templates.R'
+Collate: 'Demographics.R' 'MakeTable.R' 'Misc.R' 'Templates.R'

@@ -196,3 +196,25 @@ AfterLastTrue <- function(TF, group, strict=TRUE) {
 }
 ## group <- c(1, 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6); TF <- c(F, T, T, F, F, F, T, T, T, T, F, T, F, T, F)
 ## data.frame(group, TF, x=AfterLastTrue(TF, group, strict=FALSE), y=AfterLastTrue(TF, group, strict=TRUE))
+
+##' Paste columns of a matrix or data frame together.  See \code{\link{paste}}.
+##' @title Paste columns of a matrix or data frame
+##' @param x A matrix or data frame.
+##' @param sep The delimiter to concatenate the columns of \code{x} together.
+##' @return A vector of strings.
+##' @author Vinh Nguyen
+##' @examples
+##' PasteColumn(cbind(rep(1:10), rep(1:10)))
+PasteColumn <- function(x, sep=" "){
+  ##stopifnot(is.data.frame(x) | is.matrix(x))
+  sep2 <- sep
+  if(is.data.frame(x) | is.matrix(x)){
+    n <- ncol(x)
+    string2eval <- paste("paste(", paste("x[, ", 1:n, "]", sep="", collapse=", "), ", sep=\"", sep2, "\"", ")", sep="")
+    rslt <- eval(parse(text=string2eval))
+  } else
+  if(is.vector(x)){
+    rslt <- paste(x, collapse=sep2)
+  }
+  return(rslt)
+}
