@@ -1,8 +1,8 @@
-##### Project Name  : ProjectTemplate
+##### Project Name  : 
 ##### Description   : 
-##### Author        : Vinh Q. Nguyen <vqnguyen@uci.edu> 
+##### Author        : 
 ##### Collaborators : 
-##### Date(s)       : 2010-10-26
+##### Date(s)       : 
 
 
 #### Libraries
