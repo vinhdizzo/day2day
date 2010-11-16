@@ -6,6 +6,9 @@
     - Plots
     - Templates (packages and projects)
     - Misc
+* LICENSE
+  - [[http://www.gnu.org/licenses/gpl-3.0.html][GPL v3]]
+
 * INSTALL
 ** Bleeding Edge (using [[http://git-scm.com/][git]])
 #+BEGIN_SRC bash
@@ -14,7 +17,6 @@ R CMD INSTALL day2day
 #+END_SRC
 ** CRAN
    - Soon...
-* LICENSE
-  - [[http://www.gnu.org/licenses/gpl-3.0.html][GPL v3]]
+* TODO
 * AUTHOR
   - Vinh Q. Nguyen (vinhdizzo at gmail dot com)
