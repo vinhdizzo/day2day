@@ -6,6 +6,14 @@
     - Plots
     - Templates (packages and projects)
     - Misc
+* INSTALL
+** Bleeding Edge (using [[http://git-scm.com/][git]])
+#+BEGIN_SRC bash
+git clone https://github.com/nguyenvinh/day2day.git ## day2day folder downloaded
+R CMD INSTALL day2day
+#+END_SRC
+** CRAN
+   - Soon...
 * LICENSE
   - [[http://www.gnu.org/licenses/gpl-3.0.html][GPL v3]]
 * AUTHOR
