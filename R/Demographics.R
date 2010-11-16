@@ -56,7 +56,7 @@ SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=
 ##' @param ... Arguments to be passed to \code{continuous.summary.function} and \code{factor.summary.function}.
 ##' @return Formatted text in a vector or matrix.
 ##' @author Vinh Nguyen
-SummarizeVar <- function(x, group=rep(1, length(x)), , latex=TRUE, decimal.factor=0, decimal.continuous=2, continuous.summary.function=SummarizeContinuousDefault, factor.summary.function=SummarizeFactorDefault, ...){
+SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=0, decimal.continuous=2, continuous.summary.function=SummarizeContinuousDefault, factor.summary.function=SummarizeFactorDefault, ...){
   if(any(is.na(group))) stop("group must not contain NA.")
   if(is.numeric(x)) rslt <- continuous.summary.function(x=x, group=group, latex=latex, decimal=decimal.continuous, ...)
   else if(is.factor(x) | is.character(x)) rslt <- factor.summary.function(x=x, group=group, latex=latex, decimal=decimal.factor, ...)
