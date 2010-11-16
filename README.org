@@ -17,6 +17,6 @@ R CMD INSTALL day2day
 #+END_SRC
 ** CRAN
    - Soon...
-* TODO
+* TO DO
 * AUTHOR
   - Vinh Q. Nguyen (vinhdizzo at gmail dot com)
