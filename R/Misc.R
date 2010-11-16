@@ -6,6 +6,7 @@
 ##' @param yes Expression that is evaluated if \code{test} is \code{TRUE}.
 ##' @param no Expression that is evaluated if \code{test} is \code{FALSE}.
 ##' @return \code{yes} or \code{no}.
+##' @export
 ifelse1 <- function(test, yes, no){
   # Return yes if test is TRUE, else no.
   # Like ifelse(), except that test is not a vector, and yes or no
@@ -23,6 +24,7 @@ ifelse1 <- function(test, yes, no){
 ##' @author Vinh Nguyen
 ##' @examples
 ##' is.whole(1:5) ; is.whole(1) ; is.whole(c(1,1.2))
+##' @export
 is.whole <- function(x){
   ## takes in vector/matrix of numerics
   ## returns TRUE/FALSE whether all numbers are whole numbers
@@ -40,6 +42,7 @@ is.whole <- function(x){
 ##' @author Vinh Nguyen
 ##' @examples
 ##' OneTo(1:5) ; OneTo( c(1,10,2) )
+##' @export
 OneTo <- function(x){
   ## takes in vector of positive integers
   ## returns vector of 
@@ -57,6 +60,7 @@ OneTo <- function(x){
 ##' @return Vector of strings.
 ##' @author Vinh Nguyen
 ##' @examples string2vec("a,b,c,d")
+##' @export
 string2vec <- function(string, sep=","){
   ## takes in a string with a separator
   ## returns a vector of string, each element being the value separated in input
@@ -104,6 +108,7 @@ string2vec <- function(string, sep=","){
 ##' First(x, index=TRUE)
 ##' Last(x, index=FALSE)
 ##' Last(x, index=FALSE)
+##' @export GroupSize GroupEnum First Last
 GroupSize <- function(group) {
   tapply(group, group, length)
 }
@@ -162,6 +167,7 @@ Last <- function(group, index=FALSE) {
 ##' data.frame(group, TF, x=AfterFirstTrue(TF, group, strict=FALSE), y=AfterFirstTrue(TF, group, strict=TRUE))
 ##' data.frame(group, TF, x=BeforeLastTrue(TF, group, strict=FALSE), y=BeforeLastTrue(TF, group, strict=TRUE))
 ##' data.frame(group, TF, x=AfterLastTrue(TF, group, strict=FALSE), y=AfterLastTrue(TF, group, strict=TRUE))
+##' @export BeforeFirstTrue AfterFirstTrue BeforeLastTrue AfterLastTrue
 BeforeFirstTrue <- function(TF, group, strict=FALSE) {
   if(length(TF) != length(group)) stop("TF and group must be of the same length.")
   observation.time <- GroupEnum(group)
@@ -205,6 +211,7 @@ AfterLastTrue <- function(TF, group, strict=TRUE) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' PasteColumn(cbind(rep(1:10), rep(1:10)))
+##' @export
 PasteColumn <- function(x, sep=" "){
   ##stopifnot(is.data.frame(x) | is.matrix(x))
   sep2 <- sep

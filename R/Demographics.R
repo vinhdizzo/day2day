@@ -12,6 +12,7 @@
 ##' @author Vinh Nguyen
 ##' @examples
 ##' SummarizeContinuousDefault(x=c(rnorm(100, 5), rnorm(100, 0)), group=rep(0:1, each=100))
+##' @export
 SummarizeContinuousDefault <- function(x, group=rep(1, length(x)), decimal=2, latex=TRUE, na.rm=TRUE, ...){
   mu <- formatC(tapply(x, group, mean, na.rm=na.rm), format="f", digits=decimal)
   sd <- formatC(tapply(x, group, sd, na.rm=na.rm), format="f", digits=decimal)
@@ -25,13 +26,14 @@ SummarizeContinuousDefault <- function(x, group=rep(1, length(x)), decimal=2, la
 ##' @param x Vector of values.
 ##' @param group Group identifier to return summaries by group.
 ##' @param decimal The number of decimal values to format the results; defaults to 0.
-##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\}.
+##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\}}.
 ##' @param useNA Defaults to \code{ifany} and passed to \code{\link{table}}.
 ##' @param ... Nothing.
 ##' @return Formatted text of counts with percentages in parentheses, in a vector or matrix.
 ##' @author Vinh Nguyen
 ##' @examples
 ##' SummarizeFactorDefault(x=c(sample(1:5, 100, replace=TRUE), sample(1:5, 100, replace=TRUE)), group=rep(0:1, each=100))
+##' @export
 SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=TRUE, useNA="ifany", ...){
   counts <- table(x, group, useNA=useNA)
   pct <- formatC(counts / matrix(colSums(counts), nrow=nrow(counts), ncol=ncol(counts), byrow=TRUE)*100, format="f", digits=decimal)
@@ -56,6 +58,7 @@ SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=
 ##' @param ... Arguments to be passed to \code{continuous.summary.function} and \code{factor.summary.function}.
 ##' @return Formatted text in a vector or matrix.
 ##' @author Vinh Nguyen
+##' @export
 SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=0, decimal.continuous=2, continuous.summary.function=SummarizeContinuousDefault, factor.summary.function=SummarizeFactorDefault, ...){
   if(any(is.na(group))) stop("group must not contain NA.")
   if(is.numeric(x)) rslt <- continuous.summary.function(x=x, group=group, latex=latex, decimal=decimal.continuous, ...)
@@ -82,7 +85,8 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 ##' Summarize(trt~x1+x2+x3, data=df)
 ##' Summarize(~., data=df)
 ##' Summarize(trt~., data=df, decimal.factor=2)
-##' print(xtable(Summarize(trt~., data=df)), sanitize.text.function=identity)
+##' \dontrun{print(xtable(Summarize(trt~., data=df)), sanitize.text.function=identity)}
+##' @export
 Summarize <- function(formula, data, latex=TRUE, ...) {
   if(missing(data)) {
     data <- environment(formula)

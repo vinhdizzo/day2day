@@ -4,10 +4,12 @@ Date: 2010-10-25
 Title: Functions used on a day-to-day basis.
 Author: Vinh Nguyen <vinhdizzo@gmail.com>
 Maintainer: Vinh Nguyen <vinhdizzo@gmail.com>
-Description: Collection of functions used on a day-to-day basis,
-    including report generation (LaTeX and html).
-License: GPL (>= 2)
+Description: Collection of functions used on a day-to-day basis
+    (demographics summary, LaTeX, plotting, templates, and
+    miscellaneous).
+License: GPL-3
 Type: Package
-URL: http://r-forge.r-project.org/projects/day2day/
+URL: https://github.com/nguyenvinh/day2day
+Depends: tikzDevice
 BugReports: Vinh Nguyen <vinhdizzo@gmail.com>
-Collate: 'Demographics.R' 'MakeTable.R' 'Misc.R' 'Templates.R'
+Collate: 'Demographics.R' 'LaTeX.R' 'Misc.R' 'Plots.R' 'Templates.R'

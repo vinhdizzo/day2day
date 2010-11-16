@@ -8,6 +8,7 @@
 ##' @author Vinh Nguyen
 ##' @examples
 ##' LatexNewLine()
+##' @export
 LatexNewLine <- function(n=1, ...){
   cat(rep(" \\\\\n", n))
 }
@@ -20,6 +21,7 @@ LatexNewLine <- function(n=1, ...){
 ##' @author Vinh Nguyen
 ##' @examples
 ##' hline(1); hline(2)
+##' @export
 hline <- function(n=1, ...) {
   cat(paste(rep("\\hline", n), collapse="\n"))
   cat("\n")
@@ -33,6 +35,7 @@ hline <- function(n=1, ...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' BeginTable() ; BeginTable("htb")
+##' @export
 BeginTable <- function(loc, ...) {
   if(missing(loc)) {
     cat("\\begin{table}\n")
@@ -50,6 +53,7 @@ BeginTable <- function(loc, ...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' BeginTabular("lrr"); BeginTabular("lrr", 2)
+##' @export
 BeginTabular <- function(align, hline.num=1, ...) {
   cat(paste("\\begin{tabular}{", align, "}\n", sep=""))
   hline(hline.num)
@@ -63,6 +67,7 @@ BeginTabular <- function(align, hline.num=1, ...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' caption("Baseline demographics.")
+##' @export
 caption <- function(caption, ...) {
   cat("\\caption{", caption, "}\n", sep="")
 }
@@ -75,6 +80,7 @@ caption <- function(caption, ...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' label("tab:demographics")
+##' @export
 label <- function(label, ...) {
   cat("\\label{", label, "}\n", sep="")
 }
@@ -87,6 +93,7 @@ label <- function(label, ...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' EndTabular(1); EndTabular(2)
+##' @export
 EndTabular <- function(hline.num=1, ...) {
   hline(hline.num)
   cat("\\end{tabular}\n")
@@ -99,6 +106,7 @@ EndTabular <- function(hline.num=1, ...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' EndTable()
+##' @export
 EndTable <- function(...) {
   cat("\\end{table}\n")
 }
@@ -112,6 +120,7 @@ EndTable <- function(...) {
 ##' @author Vinh Nguyen
 ##' @examples
 ##' multicolumn("Hello world!", ncol=3)
+##' @export
 multicolumn <- function(text, ncol, align="c") {
   stopifnot(is.numeric(ncol))
   paste("\\multicolumn{", ncol, "}{", align, "}{", text, "}", sep="")
@@ -174,12 +183,23 @@ latex2html <- function(file) {
   invisible(NULL)
 }
 
-##' Merge multiple .tex files and .eps files into one LaTeX file (.tex) file, and convert the LaTeX file into .odt (OpenOffice) and .doc (Word).
+##' Merge multiple .tex files and .eps files into one LaTeX file (.tex) file,
+##' and convert the LaTeX file into .odt (OpenOffice) and .doc (Word).
 ##'
-##' This function makes use of \code{latex}, \code{mk4ht oolatex} from \code{tex4ht} and \code{ooconvert}.  This function will only work on *nix platforms.
+##' This function makes use of \code{latex}, \code{mk4ht oolatex} from
+##' \code{tex4ht} and \code{ooconvert}.  This function will only work on
+##' *nix platforms.
 ##' @title Merge LaTeX files and figures into doc
-##' @param tex.files Vector of filenames ending in {.tex}.  Files must not contain the document header and "end document" as they will be merged; header and ending will be added on the fly.  Typically usage would include multiple files containing LaTeX table codes.
-##' @param figures Vector of encapsulated postscript (\code{eps}) filenames to be included in the final document.  \code{eps} files are needed since \code{mk4ht oolatex} generates {dvi} files from the \code{latex} command, and only \code{eps} files are supported with the \code{latex} command.  Path to files must not contain spaces (limitations of \code{graphics} in \code{latex}).
+##' @param tex.files Vector of filenames ending in {.tex}.  Files must
+##' not contain the document header and "end document" as they will be
+##' merged; header and ending will be added on the fly.  Typically usage
+##' would include multiple files containing LaTeX table codes.
+##' @param figures Vector of encapsulated postscript (\code{eps})
+##' filenames to be included in the final document.  \code{eps} files are
+##' needed since \code{mk4ht oolatex} generates {dvi} files from the
+##' \code{latex} command, and only \code{eps} files are supported with
+##' the \code{latex} command.  Path to files must not contain spaces
+##' (limitations of \code{graphics} in \code{latex}).
 ##' @param figure.captions Vector of caption strings that correspond to \code{figures}.
 ##' @param out.file  Name of the out file without the extensions.  The path to the file must not contain spaces (limitation of \code{mk4ht oolatex}).
 ##' @param latex.packages Vector of packages to be included in LaTeX document.  \code{graphicx} and \code{multirow} are always included by default.
@@ -240,5 +260,3 @@ MergeLatex2Doc <- function(tex.files, figures, figure.captions, out.file, latex.
   cat("GENERATED: ", out.file, "\n")
   invisible(NULL)
 }
-
-

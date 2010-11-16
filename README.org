@@ -1,7 +1,12 @@
-#+TITLE: day2day R package
+#+TITLE: day2day
 * ABOUT
-  - Just an R Package with functions I use everyday.
+  - An R Package with functions I use everyday.
+    - Demographics
+    - LaTeX
+    - Plots
+    - Templates (packages and projects)
+    - Misc
 * LICENSE
-  - [[http://www.gnu.org/licenses/gpl-2.0.html][GPL >=2]]
+  - [[http://www.gnu.org/licenses/gpl-3.0.html][GPL v3]]
 * AUTHOR
-  - Vinh Q. Nguyen
+  - Vinh Q. Nguyen (vinhdizzo at gmail dot com)
