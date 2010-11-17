@@ -1,6 +1,6 @@
 ##' Save the plot to pdf, eps, jpeg, and tikz (tex).
 ##'
-##' See \code{\link[grDevices]{dev2}}.  The \code{\link[agsemisc]{plotf}} function also saves to multiple formats.
+##' See \code{\link[grDevices]{dev.copy}}.  The \code{\link[agsemisc]{plotf}} function also saves to multiple formats.
 ##' @title Save plot to multiple files
 ##' @param file Filename without the extension.  "Rplot\%03d" for multiple plots will probably not work based on how this is written.
 ##' @param plot.expression Plotting expression.  If missing, copy the currently active device.
