@@ -110,18 +110,19 @@ string2vec <- function(string, sep=","){
 ##' Last(x, index=FALSE)
 ##' @export GroupSize GroupEnum First Last
 GroupSize <- function(group) {
-  tapply(group, group, length)
+  tapply(group, factor(group, levels=unique(group)), length)
+  ## need to add levels up there because tapply automatically sorts...big error!
 }
 
 ##' @nord
 GroupEnum <- function(group) {
-  OneTo(tapply(group, group, length))
+  OneTo(GroupSize(group))
 }
 
 ##' @nord
 First <- function(group, index=FALSE) {
   ## cat("NOTE: 'First' function assumes 'group' is grouped.\n")
-  first.indicator <- OneTo(tapply(group, group, length)) == 1
+  first.indicator <- OneTo(GroupSize(group)) == 1
   if(!index) {
     return(first.indicator)
   } else
@@ -133,8 +134,8 @@ First <- function(group, index=FALSE) {
 ##' @nord
 Last <- function(group, index=FALSE) {
   ## cat("NOTE: 'Last' function assumes 'group' is grouped.\n")
-  length.of.each.group <- tapply(group, group, length)
-  last.indicator <- OneTo(tapply(group, group, length)) == rep(length.of.each.group, times=length.of.each.group)
+  length.of.each.group <- GroupSize(group)
+  last.indicator <- OneTo(GroupSize(group)) == rep(length.of.each.group, times=length.of.each.group)
   if(!index) {
     return(last.indicator)
   } else
@@ -171,7 +172,7 @@ Last <- function(group, index=FALSE) {
 BeforeFirstTrue <- function(TF, group, strict=FALSE) {
   if(length(TF) != length(group)) stop("TF and group must be of the same length.")
   observation.time <- GroupEnum(group)
-  first.true <- tapply(TF, group, function(x){ ifelse1(any(x), which(x)[1], Inf) })
+  first.true <- tapply(TF, factor(group, levels=unique(group)), function(x){ ifelse1(any(x), which(x)[1], Inf) })
   first.true.repeated <- rep(first.true, times=GroupSize(group))
   return(ifelse1(strict, observation.time < first.true.repeated, observation.time <= first.true.repeated))
 }
@@ -189,7 +190,7 @@ AfterFirstTrue <- function(TF, group, strict=TRUE) {
 BeforeLastTrue <- function(TF, group, strict=FALSE) {
   if(length(TF) != length(group)) stop("TF and group must be of the same length.")
   observation.time <- GroupEnum(group)
-  last.true <- tapply(TF, group, function(x){ ifelse1(any(x), {trues <- which(x); trues[length(trues)]}, Inf) })
+  last.true <- tapply(TF, factor(group, levels=unique(group)), function(x){ ifelse1(any(x), {trues <- which(x); trues[length(trues)]}, Inf) })
   last.true.repeated <- rep(last.true, times=GroupSize(group))
   return(ifelse1(strict, observation.time < last.true.repeated, observation.time <= last.true.repeated))
 }
@@ -225,3 +226,16 @@ PasteColumn <- function(x, sep=" "){
   }
   return(rslt)
 }
+
+## following taken from http://4dpiecharts.com/2011/01/20/bad-kitty/
+## Richie Cotton
+catn <- function(...) cat(..., "\n")
+##catn("Yes, I would like this content on its own line.")
+cats <- function(..., file = "", sep = " ", fill = FALSE, labels = NULL, append = FALSE)
+{
+  cat(sprintf(...), file = file, sep = sep, fill = fill, labels = labels, append = append)
+}
+#Or, combining the two ideas
+catsn <- function(...) catn(cats(...))
+##catsn("The temperature is %g Celcius in %s", -4, "Buxton")
+
