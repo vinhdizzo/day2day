@@ -68,6 +68,19 @@ string2vec <- function(string, sep=","){
 }
 ## string2vec('a,b,c,d')
 
+##' Determine whether a vector's elements are grouped nearby if they have the same value.
+##'
+##' @title Are the vector's elements grouped together?
+##' @param x 
+##' @return \code{logical}.
+##' @author Vinh Nguyen
+##' @examples
+##' is.grouped(c(1,2,2)) ## TRUE
+##' is.grouped(c(1,2,2,1)) ## FALSE
+is.grouped <- function(x) {
+  all(tapply(1:length(x), factor(x, levels=unique(x)), function(x) all(diff(x)==1) ))
+}
+
 ##' For input vector \code{group} where the values are grouped, determine
 ##' certain attributes for each group: group size, element enumeration,
 ##' first element, and last element.  NOTE: Assumes group values are
@@ -110,6 +123,7 @@ string2vec <- function(string, sep=","){
 ##' Last(x, index=FALSE)
 ##' @export GroupSize GroupEnum First Last
 GroupSize <- function(group) {
+  if(!is.grouped(group)) stop("Vector's elements are not grouped.")
   tapply(group, factor(group, levels=unique(group)), length)
   ## need to add levels up there because tapply automatically sorts...big error!
 }
