@@ -77,6 +77,7 @@ string2vec <- function(string, sep=","){
 ##' @examples
 ##' is.grouped(c(1,2,2)) ## TRUE
 ##' is.grouped(c(1,2,2,1)) ## FALSE
+##' @export
 is.grouped <- function(x) {
   all(tapply(1:length(x), factor(x, levels=unique(x)), function(x) all(diff(x)==1) ))
 }
