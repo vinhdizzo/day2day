@@ -47,6 +47,9 @@ SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=
 ##' @title Summarize a vector (continuous or factor)
 ##' @param x Vector of values.
 ##' @param group Group identifiers to return summaries by group.
+##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\}.
+##' @param decimal.factor The number of decimals to display in percentages for factor variables.  This is passed to the \code{decimal} in \code{factor.summary.function}.
+##' @param decimal.continuous The number of decimals to display in percentages for numeric variables.  This is passed to the \code{decimal} in \code{continuous.summary.function}.
 ##' @param continuous.summary.function Function to use to summarize a continuous variable; defaults to \code{\link{SummarizeContinuousDefault}}.  Function must take in the following arguments:
 ##' \code{x}: a vector of values.
 ##' \code{group}: a vector that identifies group.
@@ -54,7 +57,6 @@ SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=
 ##' \code{latex}: a logical value that indicates whether the resulting output contains LaTeX code; should default to \code{TRUE}.
 ##' \code{...}: additional arguments.
 ##' @param factor.summary.function Function to use to summarize a factor variable; defaults to \code{\link{SummarizeFactorDefault}}.  See \code{continuous.summary.function}.
-##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\}.
 ##' @param ... Arguments to be passed to \code{continuous.summary.function} and \code{factor.summary.function}.
 ##' @return Formatted text in a vector or matrix.
 ##' @author Vinh Nguyen

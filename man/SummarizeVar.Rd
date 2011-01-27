@@ -21,3 +21,4 @@
 \item{latex}{Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\}.}
 \item{...}{Arguments to be passed to \code{continuous.summary.function} and \code{factor.summary.function}.}
 }
+
