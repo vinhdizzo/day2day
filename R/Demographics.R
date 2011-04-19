@@ -71,8 +71,9 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 
 ##' Creates a summary table of a data set in a matrix object for pretty printing via \code{\link[xtable]{xtable}}.
 ##'
-##' This is generally used to create demographics table and used with the package \link{xtable} to print.  To get proper names to display, a \code{data.frame} should be constructed such that the variable names are what the users want to be displayed.  For \code{factor} variables, the user
-##' should make use of the \code{levels} and \code{labels} arguments in \code{\link{factor}}.
+##' This is generally used to create demographics table and used with the package \link{xtable} to print.  To get proper names to display,
+##' a \code{data.frame} should be constructed such that the variable names are what the users want to be displayed.  For \code{factor} variables,
+##' the user should make use of the \code{levels} and \code{labels} arguments in \code{\link{factor}}.
 ##' @title Summarize a Data Set (Demographics)
 ##' @param formula A \code{\link[stats]{formula}}, with the left-hand side being empty or a group variable to summarize by.  The right-hand side should include variables to summarize by; they should be either continuous variables or factors/characters.
 ##' @param data A \code{\link{data.frame}} where the variables in \code{formula} come from; if not specified, variables are looked for in the parent environment.
