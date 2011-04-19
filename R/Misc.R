@@ -254,3 +254,15 @@ cats <- function(..., file = "", sep = " ", fill = FALSE, labels = NULL, append 
 catsn <- function(...) catn(cats(...))
 ##catsn("The temperature is %g Celcius in %s", -4, "Buxton")
 
+## http://www.markmfredrickson.com/thoughts/2011-02-06-peeking-inside-r-functions.html
+## Mark M. Fredickson mark.m.fredrickson@gmail.com
+fnpeek <- function(f, name = NULL) {
+  env <- environment(f)
+  if (is.null(name)) {
+    return(ls(envir = env))
+  }
+  if (name %in% ls(envir = env)) {
+    return(get(name, env))
+  }
+  return(NULL)
+}
