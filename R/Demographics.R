@@ -47,7 +47,7 @@ SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=
 ##' @title Summarize a vector (continuous or factor)
 ##' @param x Vector of values.
 ##' @param group Group identifiers to return summaries by group.
-##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\}.
+##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\\}.
 ##' @param decimal.factor The number of decimals to display in percentages for factor variables.  This is passed to the \code{decimal} in \code{factor.summary.function}.
 ##' @param decimal.continuous The number of decimals to display in percentages for numeric variables.  This is passed to the \code{decimal} in \code{continuous.summary.function}.
 ##' @param continuous.summary.function Function to use to summarize a continuous variable; defaults to \code{\link{SummarizeContinuousDefault}}.  Function must take in the following arguments:
@@ -71,7 +71,7 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 
 ##' Creates a summary table of a data set in a matrix object for pretty printing via \code{\link[xtable]{xtable}}.
 ##'
-##' This is generally used to create demographics table and used with the package \link{xtable} to print.  To get proper names to display,
+##' This is generally used to create demographics table and used with the package \link[xtable]{xtable} to print.  To get proper names to display,
 ##' a \code{data.frame} should be constructed such that the variable names are what the users want to be displayed.  For \code{factor} variables,
 ##' the user should make use of the \code{levels} and \code{labels} arguments in \code{\link{factor}}.
 ##' @title Summarize a Data Set (Demographics)
