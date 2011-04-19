@@ -76,6 +76,7 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 ##' @param formula A \code{\link[stats]{formula}}, with the left-hand side being empty or a group variable to summarize by.  The right-hand side should include variables to summarize by; they should be either continuous variables or factors/characters.
 ##' @param data A \code{\link{data.frame}} where the variables in \code{formula} come from; if not specified, variables are looked for in the parent environment.
 ##' @param latex A \link{logical} variable that determines whether the resulting output will be part of a LaTeX document.  Defaults to \code{TRUE}.
+##' @param na.action A function to handle missing data.  See \code{\link[stats]{na.pass}}.
 ##' @param ... Additional arguments passed to \link{SummarizeVar}, such as \code{decimal.factor}, \code{decimal.continuous}, \code{continuous.summary.function}, and \code{factor.summary.function}.
 ##' @return A matrix to be used with \code{\link[xtable]{xtable}}, which in turn should be used in \code{\link[xtable]{print.xtable}}.
 ##' @author Vinh Nguyen
@@ -89,13 +90,13 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 ##' Summarize(trt~., data=df, decimal.factor=2)
 ##' \dontrun{print(xtable(Summarize(trt~., data=df)), sanitize.text.function=identity)}
 ##' @export
-Summarize <- function(formula, data, latex=TRUE, ...) {
+Summarize <- function(formula, data, latex=TRUE, na.action=na.pass, ...) {
   if(missing(data)) {
     data <- environment(formula)
   } else {
     stopifnot(is.data.frame(data))
   }
-  mf <- model.frame(formula, data=data)
+  mf <- model.frame(formula, data=data, na.action=na.action)
   if(attr(terms(formula, data=mf), "response")) { ## LHS ~ RHS.  tells me LHS specified
     group <- factor(model.response(data=mf))##group <- factor(mf[, 1]) ## first column is LHS, assuming something like "x~" and not "x+y~"
     mf <- mf[, -1]
