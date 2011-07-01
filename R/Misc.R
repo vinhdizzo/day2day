@@ -269,6 +269,3 @@ fnpeek <- function(f, name = NULL) {
 }
 
 
-### linear contrast function
-### lrt
-### score test?
