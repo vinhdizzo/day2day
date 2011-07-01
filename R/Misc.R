@@ -60,14 +60,14 @@ OneTo <- function(x){
 ##' @param sep Separator; defaults to \code{","}.
 ##' @return Vector of strings.
 ##' @author Vinh Nguyen
-##' @examples string2vec("a,b,c,d")
+##' @examples StringToVec("a,b,c,d")
 ##' @export
-string2vec <- function(string, sep=","){
+StringToVec <- function(string, sep=","){
   ## takes in a string with a separator
   ## returns a vector of string, each element being the value separated in input
   eval(parse(text=paste('c("', paste(unlist(strsplit(string, split=sep)), collapse='","', sep=''), '")', sep='')))
 }
-## string2vec('a,b,c,d')
+## StringToVec('a,b,c,d')
 
 ##' Determine whether a vector's elements are grouped nearby if they have the same value.
 ##'

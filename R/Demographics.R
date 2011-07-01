@@ -48,23 +48,23 @@ SummarizeFactorDefault <- function(x, group=rep(1, length(x)), decimal=0, latex=
 ##' @param x Vector of values.
 ##' @param group Group identifiers to return summaries by group.
 ##' @param latex Return LaTeX characters if \code{TRUE} (default).  For example, the LaTeX code for the percentage symbol should be preceeded by the escape character \code{\\}.
-##' @param decimal.factor The number of decimals to display in percentages for factor variables.  This is passed to the \code{decimal} in \code{factor.summary.function}.
-##' @param decimal.continuous The number of decimals to display in percentages for numeric variables.  This is passed to the \code{decimal} in \code{continuous.summary.function}.
-##' @param continuous.summary.function Function to use to summarize a continuous variable; defaults to \code{\link{SummarizeContinuousDefault}}.  Function must take in the following arguments:
+##' @param decimalFactor The number of decimals to display in percentages for factor variables.  This is passed to the \code{decimal} in \code{factor.summary.function}.
+##' @param decimalContinuous The number of decimals to display in percentages for numeric variables.  This is passed to the \code{decimal} in \code{ContinuousSummaryFunction}.
+##' @param ContinuousSummaryFunction Function to use to summarize a continuous variable; defaults to \code{\link{SummarizeContinuousDefault}}.  Function must take in the following arguments:
 ##' \code{x}: a vector of values.
 ##' \code{group}: a vector that identifies group.
 ##' \code{decimal}: a numeric value to indicate the decimal places in the formatted output.
 ##' \code{latex}: a logical value that indicates whether the resulting output contains LaTeX code; should default to \code{TRUE}.
 ##' \code{...}: additional arguments.
-##' @param factor.summary.function Function to use to summarize a factor variable; defaults to \code{\link{SummarizeFactorDefault}}.  See \code{continuous.summary.function}.
-##' @param ... Arguments to be passed to \code{continuous.summary.function} and \code{factor.summary.function}.
+##' @param FactorSummaryFunction Function to use to summarize a factor variable; defaults to \code{\link{SummarizeFactorDefault}}.  See \code{ContinuousSummaryFunction}.
+##' @param ... Arguments to be passed to \code{ContinuousSummaryFunction} and \code{FactorSummaryFunction}.
 ##' @return Formatted text in a vector or matrix.
 ##' @author Vinh Nguyen
 ##' @export
-SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=0, decimal.continuous=2, continuous.summary.function=SummarizeContinuousDefault, factor.summary.function=SummarizeFactorDefault, ...){
+SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimalFactor=0, decimalContinuous=2, ContinuousSummaryFunction=SummarizeContinuousDefault, FactorSummaryFunction=SummarizeFactorDefault, ...){
   if(any(is.na(group))) stop("group must not contain NA.")
-  if(is.numeric(x)) rslt <- continuous.summary.function(x=x, group=group, latex=latex, decimal=decimal.continuous, ...)
-  else if(is.factor(x) | is.character(x)) rslt <- factor.summary.function(x=x, group=group, latex=latex, decimal=decimal.factor, ...)
+  if(is.numeric(x)) rslt <- ContinuousSummaryFunction(x=x, group=group, latex=latex, decimal=decimalContinuous, ...)
+  else if(is.factor(x) | is.character(x)) rslt <- FactorSummaryFunction(x=x, group=group, latex=latex, decimal=decimalFactor, ...)
   else stop("x needs to be numeric or factor/character.")
   return(rslt)
 }
@@ -79,7 +79,7 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 ##' @param data A \code{\link{data.frame}} where the variables in \code{formula} come from; if not specified, variables are looked for in the parent environment.
 ##' @param latex A \link{logical} variable that determines whether the resulting output will be part of a LaTeX document.  Defaults to \code{TRUE}.
 ##' @param na.action A function to handle missing data.  See \code{\link[stats]{na.pass}}.
-##' @param ... Additional arguments passed to \link{SummarizeVar}, such as \code{decimal.factor}, \code{decimal.continuous}, \code{continuous.summary.function}, and \code{factor.summary.function}.
+##' @param ... Additional arguments passed to \link{SummarizeVar}, such as \code{decimalFactor}, \code{decimalContinuous}, \code{ContinuousSummaryFunction}, and \code{FactorSummaryFunction}.
 ##' @return A matrix to be used with \code{\link[xtable]{xtable}}, which in turn should be used in \code{\link[xtable]{print.xtable}}.
 ##' @author Vinh Nguyen
 ##' @examples
@@ -89,7 +89,7 @@ SummarizeVar <- function(x, group=rep(1, length(x)), latex=TRUE, decimal.factor=
 ##' Summarize(~x1+x2+x3, data=df)
 ##' Summarize(trt~x1+x2+x3, data=df)
 ##' Summarize(~., data=df)
-##' Summarize(trt~., data=df, decimal.factor=2)
+##' Summarize(trt~., data=df, decimalFactor=2)
 ##' \dontrun{print(xtable(Summarize(trt~., data=df)), sanitize.text.function=identity)}
 ##' @export
 Summarize <- function(formula, data, latex=TRUE, na.action=na.pass, ...) {
