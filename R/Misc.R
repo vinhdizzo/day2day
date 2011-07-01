@@ -47,9 +47,10 @@ OneTo <- function(x){
   ## takes in vector of positive integers
   ## returns vector of 
   stopifnot( is.whole(x), x > 0 )
-  eval(parse(text=
-    paste('c(', paste('1:', x, collapse=',', sep=''), ')', sep='')
-             ))
+  ## eval(parse(text=
+  ##   paste('c(', paste('1:', x, collapse=',', sep=''), ')', sep='')
+  ##            ))
+  unlist(sapply(x, seq)) ## USE THIS INSTEAD!
 }
 ## OneTo(1:5) ; OneTo( c(1,10,2) )
 
@@ -266,3 +267,8 @@ fnpeek <- function(f, name = NULL) {
   }
   return(NULL)
 }
+
+
+### linear contrast function
+### lrt
+### score test?
